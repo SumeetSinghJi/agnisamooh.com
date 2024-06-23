@@ -25,8 +25,7 @@ function LoginForm() {
       localStorage.setItem('authToken', token); // Store the token in localStorage
       setFormSubmitted(true);
       setErrorMessage('');  // Clear any previous error messages
-      // Redirect to Account page
-      history.push('/account');
+      history.push('/account'); // Redirect to Account page
     } catch (error) {
       console.error('Login failed', error);
       setErrorMessage('Login failed. Please check your username and password and try again.');

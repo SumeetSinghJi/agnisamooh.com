@@ -1,4 +1,5 @@
 import React from 'react';
+import AccountForm from '../components/backend/AccountForm';
 
 const Account = () => {
   const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage
@@ -21,6 +22,7 @@ const Account = () => {
           <p>
             Modify your account details below
           </p>
+          <AccountForm />
         </div>
         <div className="column3">
           {/* Content for right column (column3) */}
