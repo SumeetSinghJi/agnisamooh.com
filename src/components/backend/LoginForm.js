@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom'; // Import useHistory hook for redirection
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for navigation
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -8,7 +8,7 @@ function LoginForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const history = useHistory(); // Initialize useHistory hook
+  const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -17,7 +17,7 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://ln0w2lsuuc.execute-api.us-east-1.amazonaws.com/$default/login', {
+      const response = await axios.post('http://localhost:5000/login', {
         username,
         password,
       });
@@ -25,7 +25,7 @@ function LoginForm() {
       localStorage.setItem('authToken', token); // Store the token in localStorage
       setFormSubmitted(true);
       setErrorMessage('');  // Clear any previous error messages
-      history.push('/account'); // Redirect to Account page
+      navigate('/account'); // Navigate to Account page
     } catch (error) {
       console.error('Login failed', error);
       setErrorMessage('Login failed. Please check your username and password and try again.');

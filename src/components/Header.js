@@ -13,6 +13,9 @@ const Header = () => {
         <li><Link to="/games">Games</Link></li>
         <li><Link to="/news">News</Link></li>
         <li><Link to="/contactus">Contact us</Link></li>
+        <li><Link to="/account">Account</Link></li>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/signup">SignUp</Link></li>
       </ul>
     </div>
   );
