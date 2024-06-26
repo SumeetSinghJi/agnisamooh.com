@@ -12,10 +12,10 @@ Will include multiplayer backend services for related games such as BubbleUp.
 
 ## Software components
  * Frontend - React
- * Backend - AWS Lambda
- * Database - RDS
+ * Backend - AWS Lambda + AWS API Gateway
+ * Database - AWS RDS
  * Hosting - AWS Route 53 + AWS Certificate Manager + AWS Cloudfront + AWS S3 (region: us-east-1)
- * APIs; 
+ * APIs;
 ```bash
 DELETE /delete-account // Listens for DeleteAccountButton.js
 DELETE /logout // Listens for LogoutButton.js 

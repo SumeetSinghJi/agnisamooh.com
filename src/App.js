@@ -4,6 +4,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/Homepage';
 import Account from './pages/Account';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import Games from './pages/Games';
 import Login from './pages/Login';
 import News from './pages/News';
@@ -23,6 +25,8 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/games" element={<Games />} />
               <Route path="/login" element={<Login />} />
               <Route path="/news" element={<News />} />
