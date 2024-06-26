@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// Cors allows different domains (ports) to communicate e.g. React app on localhost:3001 
+// to communicate with Server.js on localhost:5000. By default the Webserver (express) will
+// block communication from not same origin unless cors is included
 const cors = require('cors');
 
 const app = express();
@@ -39,7 +42,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the login server. Use the /login endpoint to log in.');
 });
 
-// Lists for LoginForm.js
+// Listens for LoginForm.js
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -148,7 +151,7 @@ app.get('/get-account-details', authenticateToken, async (req, res) => {
   }
 });
 
-// Listens for DeleteAccountButtons.js
+// Listens for DeleteAccountButton.js
 app.delete('/delete-account', authenticateToken, async (req, res) => {
   const userId = req.user.userId;
 
