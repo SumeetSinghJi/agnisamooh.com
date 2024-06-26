@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
     const [formData, setFormData] = useState({
@@ -6,6 +7,8 @@ const SignUpForm = () => {
         email: '',
         password: ''
     });
+
+    const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
     const handleInputChange = (e) => {
         setFormData({
@@ -18,7 +21,7 @@ const SignUpForm = () => {
         event.preventDefault();
 
         // Sending the registration data to the API endpoint
-        fetch("API_URL_GOES_HERE", {
+        fetch("http://localhost:5001/signup", { // Updated API endpoint
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -34,8 +37,7 @@ const SignUpForm = () => {
         .then(data => {
             console.log("Success: Registered successfully: ", data);
             alert("Success: Registration successful");
-            // Redirect user to account page if registration successful
-            // window.location.href = "account.html";
+            navigate('/account'); // Navigate to Account page
         })
         .catch(error => {
             console.error("Error: ", error);

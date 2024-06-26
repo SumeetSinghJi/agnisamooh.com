@@ -1,6 +1,7 @@
 import React from 'react';
 import AccountForm from '../components/backend/AccountForm';
 import DeleteAccountButton from '../components/backend/DeleteAccountButton';
+import LogoutButton from '../components/backend/LogoutButton';
 import JoinMailingList from '../components/backend/JoinMailingList';
 
 const Account = () => {
@@ -25,17 +26,20 @@ const Account = () => {
             Modify your account details below
           </p>
           <AccountForm />
+          <p>Click to logout
+          </p>
+          <LogoutButton />
+          <p>Click the Join Mailing list button below to recieve ongoing marketing promotional
+            emails regarding AgniSamooh, and keep up to date with the latest events, discounts, promotions
+            and news!
+          </p>
+          <JoinMailingList />
           <p>You can delete your account by clicking the Delete Account button below.
             < br />
             Please note there is no method to recover a deleted account. 
             Once deleted it is gone forever.
           </p>
           <DeleteAccountButton />
-          <p>Click the Join Mailing list button below to recieve ongoing marketing promotional
-            emails regarding AgniSamooh, and keep up to date with the latest events, discounts, promotions
-            and news!
-          </p>
-          <JoinMailingList />
         </div>
         <div className="column3">
           {/* Content for right column (column3) */}

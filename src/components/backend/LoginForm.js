@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for navigation
 
@@ -10,6 +10,14 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
+  useEffect(() => {
+    // Check if user is already logged in (by checking if authToken exists in localStorage)
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+      navigate('/account'); // Redirect to account page if logged in
+    }
+  }, [navigate]);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -17,14 +25,14 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://localhost:5001/login', {
         username,
         password,
       });
-      const token = response.data.token; // Retrieve the JWT token from localStorage
+      const token = response.data.token; // Retrieve the JWT token from the response
       localStorage.setItem('authToken', token); // Store the token in localStorage
       setFormSubmitted(true);
-      setErrorMessage('');  // Clear any previous error messages
+      setErrorMessage(''); // Clear any previous error messages
       navigate('/account'); // Navigate to Account page
     } catch (error) {
       console.error('Login failed', error);

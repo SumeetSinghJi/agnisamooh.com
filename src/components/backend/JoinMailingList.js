@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage
 
-const JoinMailingListButton = ({ onDelete }) => {
+const JoinMailingListButton = () => {
+    const [errorMessage, setErrorMessage] = useState(null); // State for error message
+
     const handleJoinMailingList = async () => {
         try {
-            const response = await fetch('/api/user/delete', {
-                method: 'DELETE',
+            const response = await fetch('/join-mailing-list', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': authToken
+                    'Authorization': `Bearer ${authToken}`
                 }
             });
             if (!response.ok) {
@@ -17,12 +19,15 @@ const JoinMailingListButton = ({ onDelete }) => {
             }
         } catch (error) {
             console.error('Join mailing list error:', error.message);
-            // Handle error, show a message, or redirect to an error page
+            setErrorMessage('Failed to join mailing list');
         }
     };
 
     return (
-        <button onClick={handleJoinMailingList}>Join Mailing List</button>
+        <div>
+            <button onClick={handleJoinMailingList}>Join Mailing List</button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </div>
     );
 };
 

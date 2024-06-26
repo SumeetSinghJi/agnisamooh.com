@@ -10,8 +10,22 @@ function AccountForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const authToken = localStorage.getItem('authToken');
+
         try {
-            // Perform your update logic here
+            const response = await fetch("http://localhost:5001/update-account", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}`
+                },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update account data");
+            }
+
             setFormSubmitted(true);
             setErrorMessage('');
         } catch (error) {
