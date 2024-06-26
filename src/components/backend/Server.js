@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the login server. Use the /login endpoint to log in.');
 });
 
+// Lists for LoginForm.js
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -127,6 +128,26 @@ app.post('/update-account', authenticateToken, async (req, res) => {
   }
 });
 
+// Listens for AccountForm.js
+app.get('/get-account-details', authenticateToken, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+    const [rows] = await connection.execute('SELECT username, email FROM users WHERE userID = ?', [userId]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userDetails = rows[0];
+    res.json(userDetails);
+  } catch (error) {
+    console.error('Error fetching account details:', error);
+    res.status(500).json({ error: 'Failed to fetch account details' });
+  }
+});
+
 // Listens for DeleteAccountButtons.js
 app.delete('/delete-account', authenticateToken, async (req, res) => {
   const userId = req.user.userId;
@@ -147,7 +168,7 @@ app.delete('/delete-account', authenticateToken, async (req, res) => {
 });
 
 // Listens for JoinMailingList.js
-app.put('/api/user/join-mailing-list', authenticateToken, async (req, res) => {
+app.put('/join-mailing-list', authenticateToken, async (req, res) => {
   const userId = req.user.userID;
 
   try {
@@ -174,8 +195,6 @@ app.delete('/logout', authenticateToken, async (req, res) => {
       return res.status(500).json({ error: 'Failed to logout' });
   }
 });
-
-
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

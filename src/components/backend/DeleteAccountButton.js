@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage
@@ -9,7 +10,7 @@ const DeleteAccountButton = ({ onDelete }) => {
 
     const handleDelete = async () => {
         try {
-            const response = await fetch('/delete-account', {
+            const response = await axios.post('http://localhost:5001/delete-account', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

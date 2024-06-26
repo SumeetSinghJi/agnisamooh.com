@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 function AccountForm() {
     const [username, setUsername] = useState('');
@@ -7,19 +8,49 @@ function AccountForm() {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [authToken, setAuthToken] = useState('');
 
+    useEffect(() => {
+        // Retrieve JWT token from localStorage on component mount
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            setAuthToken(token);
+            getAccountDetails(token); // Call getAccountDetails with token
+        }
+    }, []); // Empty dependency array ensures this runs only on mount
+
+    const getAccountDetails = async () => {
+        try {
+          const authToken = localStorage.getItem('authToken');
+          setAuthToken(authToken);
+      
+          const response = await axios.get("http://localhost:5001/get-account-details", {
+            headers: {
+              'Authorization': `Bearer ${authToken}`
+            }
+          });
+      
+          setUsername(response.data.username);
+          setEmail(response.data.email);
+          setErrorMessage('');
+        } catch (error) {
+          console.error("Failed to get account details", error);
+          setErrorMessage("Failed to get account details");
+        }
+      };
+      
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const authToken = localStorage.getItem('authToken');
-
         try {
-            const response = await fetch("http://localhost:5001/update-account", {
-                method: "POST",
+            const response = await axios.post("http://localhost:5001/update-account", {
+                username,
+                email,
+                password
+            }, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${authToken}`
-                },
-                body: JSON.stringify({ username, email, password })
+                }
             });
 
             if (!response.ok) {
@@ -41,7 +72,7 @@ function AccountForm() {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">Username: {username} </label>
                 <input
                     type="text"
                     id="username"
@@ -51,7 +82,7 @@ function AccountForm() {
                 />
             </div>
             <div>
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email">Email: {email} </label>
                 <input
                     type="text"
                     id="email"
@@ -80,4 +111,4 @@ function AccountForm() {
     );
 }
 
-export default AccountForm;
+export default Ac
