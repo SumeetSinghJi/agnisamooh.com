@@ -11,6 +11,13 @@ const DeleteAccountButton = ({ onDelete }) => {
     const [errorMessage, setErrorMessage] = useState(null); // State for error message
 
     const handleDelete = async () => {
+        const confirmed = window.confirm(`Are you sure you want to delete your account?
+            Deleting an account is not recoverable.`);
+
+        if (!confirmed) {
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:5001/delete-account', {
                 method: 'DELETE',
@@ -32,6 +39,8 @@ const DeleteAccountButton = ({ onDelete }) => {
 
     return (
         <div>
+            <p>Click this button to delete your account. 
+                Please understand that deleted accounts cannot be recovered.</p>
             <button onClick={handleDelete}>Delete Account</button>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>

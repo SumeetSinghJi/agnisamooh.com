@@ -172,18 +172,33 @@ app.delete('/delete-account', authenticateToken, async (req, res) => {
   }
 });
 
-// Listens for JoinMailingList.js
-app.put('/join-mailing-list', authenticateToken, async (req, res) => {
+// Listens for SubscribeMailingList.js
+app.put('/Subscribe-mailing-list', authenticateToken, async (req, res) => {
   const userId = req.user.userID;
 
   try {
     const connection = await mysql.createConnection(dbConfig);
     await connection.execute('UPDATE users SET onMailingList = 1 WHERE userID = ?', [userId]);
 
-    return res.status(200).json({ message: 'Successfully joined mailing list' });
+    return res.status(200).json({ message: 'Successfully Subscribeed mailing list' });
   } catch (error) {
-    console.error('Join mailing list error:', error);
-    return res.status(500).json({ error: 'Failed to join mailing list' });
+    console.error('Subscribe mailing list error:', error);
+    return res.status(500).json({ error: 'Failed to Subscribe mailing list' });
+  }
+});
+
+// Listens for UnsubscribeMailingList.js
+app.put('/Unsubscribe-mailing-list', authenticateToken, async (req, res) => {
+  const userId = req.user.userID;
+
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+    await connection.execute('UPDATE users SET onMailingList = 0 WHERE userID = ?', [userId]);
+
+    return res.status(200).json({ message: 'Successfully Unsubscribeed mailing list' });
+  } catch (error) {
+    console.error('Unsubscribe mailing list error:', error);
+    return res.status(500).json({ error: 'Failed to Unsubscribe mailing list' });
   }
 });
 

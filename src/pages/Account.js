@@ -3,11 +3,12 @@
 import React from 'react';
 import AccountForm from '../components/backend/AccountForm';
 import DeleteAccountButton from '../components/backend/DeleteAccountButton';
-import JoinMailingList from '../components/backend/JoinMailingList';
+import SubscribeMailingListButton from '../components/backend/SubscribeMailingListButton';
+import UnsubscribeMailingListButton from '../components/backend/UnsubscribeMailingListButton';
 
 const Account = () => {
   const authToken = localStorage.getItem('authToken');
-  const username = authToken ? JSON.parse(atob(authToken.split('.')[1])).username : '';
+  const username = authToken ? JSON.parse(atob(authToken.split('.')[1])).username : ''; // Decode token to extract username
 
   return (
     <div>
@@ -21,11 +22,16 @@ const Account = () => {
           </div>
           <br />
           <p>
-            Welcome, {username}!
+            Welcome, {username}
           </p>
           {/* Render account details form, join mailing list, delete account button */}
           <AccountForm />
-          <JoinMailingList />
+          <p>Click here to subscribe or unsubscribe to promotional marketing material
+            which includes exclusive sales, events, news and more</p>
+          <div className="buttonspace">
+            <SubscribeMailingListButton />
+            <UnsubscribeMailingListButton />
+          </div>
           <DeleteAccountButton />
         </div>
         <div className="column3">

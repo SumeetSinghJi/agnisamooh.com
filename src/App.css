@@ -113,3 +113,10 @@ a {
 .footer .footercolumn ul li {
   margin: 0.5rem 0; /* Provides margin between list items */
 }
+
+.buttonspace {
+  /* For adding space between buttons in a single row */
+  display: flex;
+  justify-content: flex-start; /* Adjust as needed */
+  margin-bottom: 10px; /* Adjust margin if needed */
+}
