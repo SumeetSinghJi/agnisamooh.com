@@ -31,6 +31,8 @@ const SubscribeMailingListButton = () => {
 
     return (
         <div>
+            <p>Click here to subscribe/unsubscribe to promotional marketing material
+            which includes exclusive sales, events, news and more</p>
             <button onClick={handleSubscribeMailingList}>Subscribe Mailing List</button>
             {formSubmitted && <p className="success-message">Succesfully subscribed!</p>}
             {errorMessage && <p className="error-message">{errorMessage}</p>}

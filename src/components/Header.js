@@ -15,6 +15,7 @@ const Header = ({ authToken, handleLogout }) => {
         <li><Link to="/games">Games</Link></li>
         <li><Link to="/news">News</Link></li>
         <li><Link to="/contactus">Contact us</Link></li>
+        <li><Link to="/cart">Cart</Link></li>
         {!authToken ? (
           <>
             <li><Link to="/login">Login</Link></li>

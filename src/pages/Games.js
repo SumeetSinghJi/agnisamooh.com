@@ -1,10 +1,18 @@
 // src/pages/Games.js
 
 import React from 'react';
+import AddCartButton from './AddCartButton';
 import image1 from '../assets/graphics/BubbleUp1.png';
 import image2 from '../assets/graphics/BubbleUp2.png';
 
 const Games = () => {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (item) => {
+    setCart([...cart, item]);
+    localStorage.setItem('cart', JSON.stringify([...cart, item]));
+  };
+
   return (
     <div>
       <div className='main'>
@@ -31,6 +39,10 @@ const Games = () => {
           <h4>Purchase Links</h4>
           <p>
             Free version available on itch <a href="https://example.com" target="_blank" rel="noopener noreferrer">here</a>
+          </p>
+          <p>
+            Paid version available here
+            <AddCartButton itemId="bubbleup1" itemName="BubbleUp" itemPrice={10} onAddToCart={addToCart} />
           </p>
           <br />
           <br />
