@@ -61,6 +61,7 @@ function AccountForm() {
 
             setFormSubmitted(true);
             setErrorMessage('');
+            getAccountDetails(); // Call to update the Account form labels
         } catch (error) {
             console.error("Failed to update account data", error);
             setErrorMessage("Failed to update account data");
@@ -81,7 +82,6 @@ function AccountForm() {
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter new username"
                 />
-
             </div>
             <div>
                 <label htmlFor="email">Email: {email} </label>
