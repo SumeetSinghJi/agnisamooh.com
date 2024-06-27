@@ -1,4 +1,4 @@
-// hashPassword.js
+// src/components/backend/HashPassword.js
 // Used for hasing a password to insert in MySQL for first time user creation
 // You can also use this in your SignUpForm backend to create the hashed password
 // for DB insertion

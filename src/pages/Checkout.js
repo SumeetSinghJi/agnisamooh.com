@@ -1,3 +1,5 @@
+// src/pages/Checkout.js
+
 import React from 'react';
 
 const Checkout = () => {

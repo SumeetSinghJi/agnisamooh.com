@@ -1,3 +1,5 @@
+// src/pages/Games.js
+
 import React from 'react';
 import image1 from '../assets/graphics/BubbleUp1.png';
 import image2 from '../assets/graphics/BubbleUp2.png';

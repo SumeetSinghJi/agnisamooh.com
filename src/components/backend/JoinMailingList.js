@@ -1,3 +1,5 @@
+// src/components/backend/JoinMailingList.js
+
 import React, { useState } from 'react';
 
 const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage

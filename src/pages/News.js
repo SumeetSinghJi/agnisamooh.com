@@ -1,3 +1,5 @@
+// src/pages/News.js
+
 import React from 'react';
 
 const News = () => {

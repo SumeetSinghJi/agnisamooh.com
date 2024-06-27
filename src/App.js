@@ -1,5 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// App.js
+
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/Homepage';
@@ -15,23 +17,37 @@ import NotFound from './pages/NotFound';
 import './App.css';
 
 function App() {
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setAuthToken(null); // Clear authToken state
+    return <Navigate to="/" replace />;
+  };
+
   return (
     <div className="App">
       <div className="wrapper">
-        <Header />
+        <Header authToken={authToken} handleLogout={handleLogout} />
         <div className="row">
           <div className="column1"></div>
           <div className="column2">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/account" element={<Account />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/games" element={<Games />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/news" element={<News />} />
-              <Route path="/signup" element={<SignUp />} />
               <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/signup" element={<SignUp />} />
+              {!authToken ? (
+                <Route path="/login" element={<Login />} />
+              ) : (
+                <>
+                  <Route path="/account" element={<Account />} />
+                  <Route path="/logout" element={<Navigate to="/" replace />} />
+                </>
+              )}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

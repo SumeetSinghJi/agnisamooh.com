@@ -1,3 +1,5 @@
+// src/components/backend/AccountForm.js
+
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -21,24 +23,24 @@ function AccountForm() {
 
     const getAccountDetails = async () => {
         try {
-          const authToken = localStorage.getItem('authToken');
-          setAuthToken(authToken);
-      
-          const response = await axios.get("http://localhost:5001/get-account-details", {
-            headers: {
-              'Authorization': `Bearer ${authToken}`
-            }
-          });
-      
-          setUsername(response.data.username);
-          setEmail(response.data.email);
-          setErrorMessage('');
+            const authToken = localStorage.getItem('authToken');
+            setAuthToken(authToken);
+
+            const response = await axios.get("http://localhost:5001/get-account-details", {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+
+            setUsername(response.data.username);
+            setEmail(response.data.email);
+            setErrorMessage('');
         } catch (error) {
-          console.error("Failed to get account details", error);
-          setErrorMessage("Failed to get account details");
+            console.error("Failed to get account details", error);
+            setErrorMessage("Failed to get account details");
         }
-      };
-      
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -76,17 +78,16 @@ function AccountForm() {
                 <input
                     type="text"
                     id="username"
-                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter new username"
                 />
+
             </div>
             <div>
                 <label htmlFor="email">Email: {email} </label>
                 <input
                     type="text"
                     id="email"
-                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter new email"
                 />
@@ -96,7 +97,6 @@ function AccountForm() {
                 <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
-                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter new password"
                 />
@@ -111,4 +111,4 @@ function AccountForm() {
     );
 }
 
-export default Ac
+export default AccountForm

@@ -1,8 +1,10 @@
+// src/components/Header.js
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '../assets/graphics/logos/Logo-PNG-4097px.png';
 
-const Header = () => {
+const Header = ({ authToken, handleLogout }) => {
   return (
     <div className="header">
       <Link to="/">
@@ -13,9 +15,17 @@ const Header = () => {
         <li><Link to="/games">Games</Link></li>
         <li><Link to="/news">News</Link></li>
         <li><Link to="/contactus">Contact us</Link></li>
-        <li><Link to="/account">Account</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/signup">SignUp</Link></li>
+        {!authToken ? (
+          <>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/signup">Sign up</Link></li>
+          </>
+        ) : (
+          <>
+            <li><Link to="/account">Account</Link></li>
+            <li><Link to="/logout" onClick={handleLogout}>Logout</Link></li>
+          </>
+        )}
       </ul>
     </div>
   );

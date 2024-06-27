@@ -1,3 +1,5 @@
+// src/components/YouTubeEmbed.js
+
 import React from 'react';
 
 const YouTubeEmbed = ({ embedId }) => (
