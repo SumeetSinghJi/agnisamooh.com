@@ -1,7 +1,7 @@
 // src/pages/Games.js
 
-import React from 'react';
-import AddCartButton from './AddCartButton';
+import React, { useState } from 'react';
+import AddCartButton from '../components/AddCartButton';
 import image1 from '../assets/graphics/BubbleUp1.png';
 import image2 from '../assets/graphics/BubbleUp2.png';
 
