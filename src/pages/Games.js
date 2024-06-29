@@ -2,15 +2,22 @@
 
 import React, { useState } from 'react';
 import AddCartButton from '../components/AddCartButton';
-import image1 from '../assets/graphics/BubbleUp1.png';
-import image2 from '../assets/graphics/BubbleUp2.png';
+import ProductData from '../data/ProductData';
 
 const Games = () => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
-    setCart([...cart, item]);
-    localStorage.setItem('cart', JSON.stringify([...cart, item]));
+    setCart(prevCart => {
+      const updatedCart = [...prevCart, item];
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart; // Return the updated state
+    });
+  };
+
+  // Find the item based on its ID
+  const findItemById = (itemId) => {
+    return ProductData.find(item => item.id === itemId);
   };
 
   return (
@@ -24,47 +31,50 @@ const Games = () => {
             <h1>Games</h1>
           </div>
           <br />
-          <h3>BubbleUp</h3>
-          <p>
-            BubbleUP is a combined C++ 2D Game Engine with a built in feature-rich demonstration 2D game built ontop of the SDL Framework. It includes classes for constructing interactive Buttons and fields to create stunning GUI, Forms and HUD. Includes countless game entities and level editor to create unique stunning 2D games. Has built in scenes for achievements, leaderboards, multiplayer, and more. You can download and easily modify this open-source code to create your own game by following the instructions here.
-          </p>
-          <div style={{ textAlign: 'center' }}>
-            <img src={image1} alt="BubbleUp" style={{ maxWidth: '100%', height: 'auto' }} />
-            <br />
-            <br />
-            <img src={image2} alt="BubbleUp" style={{ maxWidth: '100%', height: 'auto' }} />
-          </div>
-          <br />
-          <br />
-          <h4>Purchase Links</h4>
-          <p>
-            Free version available on itch <a href="https://example.com" target="_blank" rel="noopener noreferrer">here</a>
-          </p>
-          <p>
-            Paid version available here
-            <AddCartButton itemId="bubbleup1" itemName="BubbleUp" itemPrice={10} onAddToCart={addToCart} />
-          </p>
-          <br />
-          <br />
-          <h4>System Requirements</h4>
-          <ul>
-            <li>OS:
+          {ProductData.map(item => (
+            <div key={item.id} style={{ marginBottom: '40px' }}>
+              <h3>{item.name}</h3>
+              <p>{item.description}</p>
+              <div style={{ textAlign: 'center' }}>
+                {item.images.map((image, index) => (
+                  <React.Fragment key={index}>
+                    <img src={image} alt={`${item.name} ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
+                    <br />
+                    <br />
+                  </React.Fragment>
+                ))}
+              </div>
+              <h4>Purchase Links</h4>
+              <p>
+                Paid version available here
+                <AddCartButton
+                  item={findItemById(item.id)} // Pass the correct item based on ID
+                  onAddToCart={addToCart}
+                />
+              </p>
+              <h4>System Requirements</h4>
               <ul>
-                <li>Windows 10, 11</li>
-                <li>MacOS 13 - 14</li>
-                <li>Ubuntu 22.04 - 24.04</li>
+                <li>OS:
+                  <ul>
+                    {item.systemRequirements.os.map(os => (
+                      <li key={os}>{os}</li>
+                    ))}
+                  </ul>
+                </li>
+                <li>Processor: {item.systemRequirements.processor}</li>
+                <li>RAM: {item.systemRequirements.ram}</li>
+                <li>Graphics: {item.systemRequirements.graphics}</li>
+                <li>Storage: {item.systemRequirements.storage}</li>
               </ul>
-            </li>
-            <li>Processor: at least a Core i3 or AMD CPU equivalent</li>
-            <li>RAM: 4 GB RAM</li>
-            <li>Graphics: at least a HD compatible CPU/GPU</li>
-            <li>Storage: 5 GB Free</li>
-          </ul>
-          <br />
-          <br />
-          <br />
+              <br />
+              <br />
+            </div>
+          ))}
         </div>
-        <div className="column3"></div>
+        <div className="column3">
+          {/* Example: Display cart count */}
+          <p>Cart Count: {cart.length}</p>
+        </div>
       </div>
     </div>
   );
