@@ -10,10 +10,11 @@ const Footer = () => {
         <h3>Quick links</h3>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/games">Games</Link></li>
-          <li><Link to="/news">News</Link></li>
-          <li><Link to="/contactus">Contact us</Link></li>
           <li><Link to="/account">Account</Link></li>
+          <li><Link to="/contactus">Contact us</Link></li>
+          <li><Link to="/games">Games</Link></li>
+          <li><Link to="/media">Media</Link></li>
+          <li><Link to="/news">News</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign up</Link></li>
         </ul>

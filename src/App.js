@@ -10,6 +10,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Games from './pages/Games';
 import Login from './pages/Login';
+import Media from './pages/Media';
 import News from './pages/News';
 import SignUp from './pages/SignUp';
 import ContactUs from './pages/ContactUs';
@@ -39,6 +40,7 @@ function App() {
               <Route path="/games" element={<Games />} />
               <Route path="/news" element={<News />} />
               <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/media" element={<Media />} />
               <Route path="/signup" element={<SignUp />} />
               {!authToken ? (
                 <Route path="/login" element={<Login />} />
