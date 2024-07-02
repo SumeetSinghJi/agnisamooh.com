@@ -26,6 +26,7 @@ const Account = () => {
           </p>
           {/* Render account details form, join mailing list, delete account button */}
           <AccountForm />
+          <p>Click here to subscribe to promotional marketing material which includes exclusive sales, events, news and more.</p>
           <div className="buttonspace">
             <SubscribeMailingListButton />
             <UnsubscribeMailingListButton />

@@ -1,38 +1,35 @@
-// src/components/backend/UnsubscribeMailingListButton.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage
-
 const UnsubscribeMailingListButton = () => {
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null); // State for error message
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleUnsubscribeMailingList = async () => {
         try {
-            const response = await axios.put('/Unsubscribe-mailing-list', {
-                method: 'PUT',
+            const authToken = localStorage.getItem('authToken');
+            const response = await axios.put('http://localhost:5001/unsubscribe-mailing-list', null, {
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
                 }
             });
-            if (!response.ok) {
-                throw new Error('Failed to Unsubscribe mailing list');
+
+            if (response.status === 200) {
+                setFormSubmitted(true);
+                setErrorMessage('');
+            } else {
+                throw new Error('Failed to unsubscribe from mailing list');
             }
-            setFormSubmitted(true);
-            setErrorMessage('');
         } catch (error) {
             console.error('Unsubscribe mailing list error:', error.message);
-            setErrorMessage('Failed to Unsubscribe mailing list');
+            setErrorMessage('Failed to unsubscribe from mailing list');
         }
     };
 
     return (
         <div>
-            <button onClick={handleUnsubscribeMailingList}>Unsubscribe Mailing List</button>
-            {formSubmitted && <p className="success-message">Unsuccesfully subscribed!</p>}
+            <button onClick={handleUnsubscribeMailingList}>Unsubscribe from Mailing List</button>
+            {formSubmitted && <p className="success-message">Successfully unsubscribed!</p>}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
     );

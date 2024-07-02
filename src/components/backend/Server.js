@@ -139,7 +139,7 @@ app.get('/get-account-details', authenticateToken, async (req, res) => {
 
   try {
     const connection = await mysql.createConnection(dbConfig);
-    const [rows] = await connection.execute('SELECT username, email FROM users WHERE userID = ?', [userId]);
+    const [rows] = await connection.execute('SELECT username, email, onMailingList FROM users WHERE userID = ?', [userId]);
 
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
@@ -150,6 +150,44 @@ app.get('/get-account-details', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error fetching account details:', error);
     res.status(500).json({ error: 'Failed to fetch account details' });
+  }
+});
+
+// Listens for SubscribeMailingListButton.js
+app.put('/subscribe-mailing-list', authenticateToken, async (req, res) => {
+  const userId = req.user.userId; // Ensure correct casing here (userId instead of userID)
+
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+    const [result] = await connection.execute('UPDATE users SET onMailingList = 1 WHERE userID = ?', [userId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found or already subscribed' });
+    }
+
+    return res.status(200).json({ message: 'Successfully subscribed to mailing list' });
+  } catch (error) {
+    console.error('Subscribe mailing list error:', error);
+    return res.status(500).json({ error: 'Failed to subscribe to mailing list' });
+  }
+});
+
+// Listens for UnsubscribeMailingList.js
+app.put('/unsubscribe-mailing-list', authenticateToken, async (req, res) => {
+  const userId = req.user.userId; // Ensure correct casing here (userId instead of userID)
+
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+    const [result] = await connection.execute('UPDATE users SET onMailingList = 0 WHERE userID = ?', [userId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found or already unsubscribed' });
+    }
+
+    return res.status(200).json({ message: 'Successfully unsubscribed from mailing list' });
+  } catch (error) {
+    console.error('Unsubscribe mailing list error:', error);
+    return res.status(500).json({ error: 'Failed to unsubscribe from mailing list' });
   }
 });
 
@@ -172,47 +210,17 @@ app.delete('/delete-account', authenticateToken, async (req, res) => {
   }
 });
 
-// Listens for SubscribeMailingList.js
-app.put('/Subscribe-mailing-list', authenticateToken, async (req, res) => {
-  const userId = req.user.userID;
-
-  try {
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.execute('UPDATE users SET onMailingList = 1 WHERE userID = ?', [userId]);
-
-    return res.status(200).json({ message: 'Successfully Subscribeed mailing list' });
-  } catch (error) {
-    console.error('Subscribe mailing list error:', error);
-    return res.status(500).json({ error: 'Failed to Subscribe mailing list' });
-  }
-});
-
-// Listens for UnsubscribeMailingList.js
-app.put('/Unsubscribe-mailing-list', authenticateToken, async (req, res) => {
-  const userId = req.user.userID;
-
-  try {
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.execute('UPDATE users SET onMailingList = 0 WHERE userID = ?', [userId]);
-
-    return res.status(200).json({ message: 'Successfully Unsubscribeed mailing list' });
-  } catch (error) {
-    console.error('Unsubscribe mailing list error:', error);
-    return res.status(500).json({ error: 'Failed to Unsubscribe mailing list' });
-  }
-});
-
 // Listens for LogoutButton.js
 app.delete('/logout', authenticateToken, async (req, res) => {
   // No need to access any specific user information since it's handled by JWT
   try {
-      // Implement any necessary cleanup logic here (if needed)
-      // Typically, clearing any server-side session or cache
-      // For JWT, logging out is simply ensuring the client discards the token
-      return res.status(200).json({ message: 'Logout successful' });
+    // Implement any necessary cleanup logic here (if needed)
+    // Typically, clearing any server-side session or cache
+    // For JWT, logging out is simply ensuring the client discards the token
+    return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
-      console.error('Logout error:', error);
-      return res.status(500).json({ error: 'Failed to logout' });
+    console.error('Logout error:', error);
+    return res.status(500).json({ error: 'Failed to logout' });
   }
 });
 

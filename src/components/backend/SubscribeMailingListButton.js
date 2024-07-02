@@ -3,38 +3,35 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const authToken = localStorage.getItem('authToken'); // Retrieve JWT token from localStorage
-
 const SubscribeMailingListButton = () => {
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null); // State for error message
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleSubscribeMailingList = async () => {
         try {
-            const response = await axios.put('/Subscribe-mailing-list', {
-                method: 'PUT',
+            const authToken = localStorage.getItem('authToken');
+            const response = await axios.put('http://localhost:5001/subscribe-mailing-list', null, {
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
                 }
             });
-            if (!response.ok) {
-                throw new Error('Failed to Subscribe mailing list');
+
+            if (response.status === 200) {
+                setFormSubmitted(true);
+                setErrorMessage('');
+            } else {
+                throw new Error('Failed to subscribe to mailing list');
             }
-            setFormSubmitted(true);
-            setErrorMessage('');
         } catch (error) {
             console.error('Subscribe mailing list error:', error.message);
-            setErrorMessage('Failed to Subscribe mailing list');
+            setErrorMessage('Failed to subscribe to mailing list');
         }
     };
 
     return (
         <div>
-            <p>Click here to subscribe/unsubscribe to promotional marketing material
-            which includes exclusive sales, events, news and more</p>
-            <button onClick={handleSubscribeMailingList}>Subscribe Mailing List</button>
-            {formSubmitted && <p className="success-message">Succesfully subscribed!</p>}
+            <button onClick={handleSubscribeMailingList}>Subscribe to Mailing List</button>
+            {formSubmitted && <p className="success-message">Successfully subscribed!</p>}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
     );

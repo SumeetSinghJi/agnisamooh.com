@@ -1,5 +1,3 @@
-// src/components/backend/AccountForm.js
-
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -11,6 +9,7 @@ function AccountForm() {
     const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [authToken, setAuthToken] = useState('');
+    const [isSubscribed, setIsSubscribed] = useState(false); // State for subscription status
 
     useEffect(() => {
         // Retrieve JWT token from localStorage on component mount
@@ -34,6 +33,7 @@ function AccountForm() {
 
             setUsername(response.data.username);
             setEmail(response.data.email);
+            setIsSubscribed(response.data.onMailingList); // Update subscription status
             setErrorMessage('');
         } catch (error) {
             console.error("Failed to get account details", error);
@@ -47,10 +47,10 @@ function AccountForm() {
             const response = await axios.post("http://localhost:5001/update-account", {
                 username,
                 email,
-                password
+                password,
+                onMailingList: isSubscribed // Include subscription status in update request
             }, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${authToken}`
                 }
             });
@@ -72,6 +72,23 @@ function AccountForm() {
         setShowPassword(!showPassword);
     };
 
+    const handleSubscriptionToggle = async () => {
+        setIsSubscribed(!isSubscribed); // Toggle subscription state locally
+        // Update subscription status on the server
+        try {
+            await axios.put("http://localhost:5001/subscribe-mailing-list", null, {
+                headers: {
+                    "Authorization": `Bearer ${authToken}`
+                }
+            });
+        } catch (error) {
+            console.error("Failed to update subscription status", error);
+            setErrorMessage("Failed to update subscription status");
+            // Rollback state change if API call fails
+            setIsSubscribed(!isSubscribed);
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -79,6 +96,7 @@ function AccountForm() {
                 <input
                     type="text"
                     id="username"
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter new username"
                 />
@@ -88,6 +106,7 @@ function AccountForm() {
                 <input
                     type="text"
                     id="email"
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter new email"
                 />
@@ -97,12 +116,23 @@ function AccountForm() {
                 <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter new password"
                 />
                 <button type="button" onClick={togglePasswordVisibility}>
                     {showPassword ? 'Hide' : 'Show'}
                 </button>
+            </div>
+            <div>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={isSubscribed}
+                        onChange={handleSubscriptionToggle}
+                    />
+                    Subscribe to mailing list
+                </label>
             </div>
             <button type="submit">Update</button>
             {formSubmitted && <p className="success-message">Account details updated</p>}
@@ -111,4 +141,4 @@ function AccountForm() {
     );
 }
 
-export default AccountForm
+export default AccountForm;
