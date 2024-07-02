@@ -1,7 +1,5 @@
-// App.js
-
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/Homepage';
@@ -19,11 +17,12 @@ import './App.css';
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setAuthToken(null); // Clear authToken state
-    return <Navigate to="/" replace />;
+    navigate('/'); // Navigate to home page after logout
   };
 
   return (
@@ -47,7 +46,6 @@ function App() {
               ) : (
                 <>
                   <Route path="/account" element={<Account />} />
-                  <Route path="/logout" element={<Navigate to="/" replace />} />
                 </>
               )}
               <Route path="*" element={<NotFound />} />

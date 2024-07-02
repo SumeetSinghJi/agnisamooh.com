@@ -1,10 +1,15 @@
-// src/components/Header.js
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/graphics/logos/Logo-PNG-4097px.png';
 
 const Header = ({ authToken, handleLogout }) => {
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    handleLogout();
+    navigate('/'); // Navigate to home page after logout
+  };
+
   return (
     <div className="header">
       <Link to="/">
@@ -24,7 +29,7 @@ const Header = ({ authToken, handleLogout }) => {
         ) : (
           <>
             <li><Link to="/account">Account</Link></li>
-            <li><Link to="/logout" onClick={handleLogout}>Logout</Link></li>
+            <li><Link to="/logout" onClick={handleLogoutClick}>Logout</Link></li>
           </>
         )}
       </ul>
