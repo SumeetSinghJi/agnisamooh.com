@@ -1,12 +1,12 @@
 ## Description
 v0.1
 
-Author: Sumeet Singh
+Author: Sumeet Chand
 
 Dated: 26/06/2024
 
 Website for learning project to construct a website for self authored game developer 
-named AgniSamooh to host video games from author Sumeet Singh and the community as open source.
+named AgniSamooh to host video games from author Sumeet Chand and the community as open source.
 Will include multiplayer backend services for related games such as BubbleUp.
 
 
